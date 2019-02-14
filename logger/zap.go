@@ -4,6 +4,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
+	"os"
 )
 
 func InitZapWithLumberjack(logFile string) *zap.Logger {
@@ -16,6 +17,14 @@ func InitZapWithLumberjack(logFile string) *zap.Logger {
 			MaxAge:     28, // days
 			Compress:   true,
 		}),
-		zap.InfoLevel,
+		zap.NewAtomicLevelAt(zap.InfoLevel),
+	))
+}
+
+func InitZapStdOutDebug() *zap.Logger {
+	return zap.New(zapcore.NewCore(
+		zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig()),
+		zapcore.AddSync(os.Stdout),
+		zap.NewAtomicLevelAt(zap.DebugLevel),
 	))
 }
