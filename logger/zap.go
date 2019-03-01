@@ -2,9 +2,9 @@ package dev_tempalte_logger
 
 import (
 	"github.com/farwydi/go-dev-template"
+	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"gopkg.in/natefinch/lumberjack.v2"
 	"os"
 	"runtime"
 	"strings"
