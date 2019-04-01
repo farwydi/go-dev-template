@@ -9,7 +9,7 @@ func New(msg string) error {
 }
 
 func Wrap(err error, msg string) error {
-    return Err{err.Error() + ": " + msg}
+    return Err{msg + ": " + err.Error()}
 }
 
 func (e Err) Error() string {
