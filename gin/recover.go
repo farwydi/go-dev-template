@@ -6,7 +6,6 @@ import (
     "go.uber.org/zap"
     "net"
     "net/http"
-    "net/http/httputil"
     "os"
     "strings"
 )
@@ -25,9 +24,16 @@ func Recovery(c *gin.Context) {
                 }
             }
 
-            httpRequest, _ := httputil.DumpRequest(c.Request, false)
-            dev_tempalte.ZapLogger.Error("panic recovered",
-                zap.String("DumpRequest", string(httpRequest)),
+            path := c.Request.URL.Path
+            query := c.Request.URL.RawQuery
+
+            dev_tempalte.ZapLogger.Info(path,
+                zap.Int("status", c.Writer.Status()),
+                zap.String("method", c.Request.Method),
+                zap.String("path", path),
+                zap.String("query", query),
+                zap.String("ip", c.ClientIP()),
+                zap.String("user-agent", c.Request.UserAgent()),
                 zap.Reflect("err", err),
             )
 
